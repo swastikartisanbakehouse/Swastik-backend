@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "swastik-phase1-collection-id",
     "name": "Swastik Phase 1 Backend API",
-    "description": "Postman Collection for testing Swastik Phase 1 REST API (Customer Auth, Categories with Sectors, Rich Product Catalog with SKUs & JSON attributes, Admin CRUD).",
+    "description": "Postman Collection for testing Swastik REST API (Dedicated Admin Login, Customer Auth, Categories with Sectors, Rich Product Catalog with SKUs & JSON attributes, Admin CRUD).",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -10,7 +10,7 @@
       "name": "Authentication",
       "item": [
         {
-          "name": "1. Register Customer",
+          "name": "1. Admin Login (Dedicated)",
           "request": {
             "method": "POST",
             "header": [
@@ -21,14 +21,14 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"John Customer\",\n  \"email\": \"customer@swastik.com\",\n  \"mobile_number\": \"9876543210\",\n  \"whatsapp_number\": \"9876543210\",\n  \"password\": \"CustomerPass123\"\n}"
+              "raw": "{\n  \"email\": \"Swastikartisanbakehouse@gmail.com\",\n  \"password\": \"ASHISH.kc1999\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/api/auth/register/",
+              "raw": "{{base_url}}/api/auth/admin/login/",
               "host": ["{{base_url}}"],
-              "path": ["api", "auth", "register", ""]
+              "path": ["api", "auth", "admin", "login", ""]
             },
-            "description": "Register a new customer account and receive token payload."
+            "description": "Dedicated Admin Login endpoint. Verifies user is staff/superuser and returns admin_token."
           },
           "event": [
             {
@@ -37,8 +37,8 @@
                 "exec": [
                   "var jsonData = pm.response.json();",
                   "if (jsonData.token) {",
-                  "    pm.environment.set(\"auth_token\", jsonData.token);",
-                  "    console.log(\"Saved auth_token:\", jsonData.token);",
+                  "    pm.environment.set(\"admin_token\", jsonData.token);",
+                  "    console.log(\"Saved admin_token:\", jsonData.token);",
                   "}"
                 ],
                 "type": "text/javascript"
@@ -47,7 +47,7 @@
           ]
         },
         {
-          "name": "2. Login Customer",
+          "name": "2. Customer Login",
           "request": {
             "method": "POST",
             "header": [
@@ -75,7 +75,7 @@
                   "var jsonData = pm.response.json();",
                   "if (jsonData.token) {",
                   "    pm.environment.set(\"auth_token\", jsonData.token);",
-                  "    console.log(\"Updated auth_token:\", jsonData.token);",
+                  "    console.log(\"Saved auth_token:\", jsonData.token);",
                   "}"
                 ],
                 "type": "text/javascript"
@@ -84,7 +84,7 @@
           ]
         },
         {
-          "name": "3. Login Admin",
+          "name": "3. Register Customer",
           "request": {
             "method": "POST",
             "header": [
@@ -95,14 +95,14 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"admin@swastik.com\",\n  \"password\": \"Admin@12345\"\n}"
+              "raw": "{\n  \"name\": \"Jane Customer\",\n  \"email\": \"jane@example.com\",\n  \"mobile_number\": \"9812345678\",\n  \"whatsapp_number\": \"9812345678\",\n  \"password\": \"Password123\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/api/auth/login/",
+              "raw": "{{base_url}}/api/auth/register/",
               "host": ["{{base_url}}"],
-              "path": ["api", "auth", "login", ""]
+              "path": ["api", "auth", "register", ""]
             },
-            "description": "Login default seeded admin account (admin@swastik.com / Admin@12345) to retrieve Admin Token."
+            "description": "Register a new customer account and receive token payload."
           },
           "event": [
             {
@@ -111,8 +111,8 @@
                 "exec": [
                   "var jsonData = pm.response.json();",
                   "if (jsonData.token) {",
-                  "    pm.environment.set(\"admin_token\", jsonData.token);",
-                  "    console.log(\"Saved admin_token:\", jsonData.token);",
+                  "    pm.environment.set(\"auth_token\", jsonData.token);",
+                  "    console.log(\"Saved auth_token:\", jsonData.token);",
                   "}"
                 ],
                 "type": "text/javascript"
@@ -121,7 +121,33 @@
           ]
         },
         {
-          "name": "4. Get My Profile",
+          "name": "4. Admin Register New Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Store Manager\",\n  \"email\": \"manager@swastik.com\",\n  \"mobile_number\": \"9988776655\",\n  \"whatsapp_number\": \"9988776655\",\n  \"password\": \"ManagerPass123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/admin/register/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "admin", "register", ""]
+            },
+            "description": "Allows an existing Admin to register an additional Admin user."
+          }
+        },
+        {
+          "name": "5. Get Profile",
           "request": {
             "method": "GET",
             "header": [
@@ -135,11 +161,11 @@
               "host": ["{{base_url}}"],
               "path": ["api", "auth", "me", ""]
             },
-            "description": "Get profile of logged-in user including mobile, whatsapp & saved addresses."
+            "description": "Get profile of logged-in user."
           }
         },
         {
-          "name": "5. Logout",
+          "name": "6. Logout",
           "request": {
             "method": "POST",
             "header": [
@@ -188,7 +214,25 @@
           }
         },
         {
-          "name": "3. Admin Create Category",
+          "name": "3. Admin List All Categories",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/categories/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "categories", ""]
+            },
+            "description": "Admin endpoint to list all categories including inactive entries."
+          }
+        },
+        {
+          "name": "4. Admin Create Category",
           "request": {
             "method": "POST",
             "header": [
@@ -210,11 +254,11 @@
               "host": ["{{base_url}}"],
               "path": ["api", "admin", "categories", ""]
             },
-            "description": "Admin endpoint to add a new category entry with sector choice and JSON metadata."
+            "description": "Admin endpoint to add a new category."
           }
         },
         {
-          "name": "4. Admin Update Category",
+          "name": "5. Admin Update Category",
           "request": {
             "method": "PATCH",
             "header": [
@@ -240,7 +284,7 @@
           }
         },
         {
-          "name": "5. Admin Delete Category",
+          "name": "6. Admin Delete Category",
           "request": {
             "method": "DELETE",
             "header": [
@@ -263,7 +307,7 @@
       "name": "Products",
       "item": [
         {
-          "name": "1. List All Products",
+          "name": "1. List All Public Products",
           "request": {
             "method": "GET",
             "header": [],
@@ -276,18 +320,18 @@
           }
         },
         {
-          "name": "2. Filter Products by Sector (e.g. DAIRY)",
+          "name": "2. Filter Products by Sector (BAKERY)",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/products/?sector=DAIRY",
+              "raw": "{{base_url}}/api/products/?sector=BAKERY",
               "host": ["{{base_url}}"],
               "path": ["api", "products", ""],
               "query": [
                 {
                   "key": "sector",
-                  "value": "DAIRY"
+                  "value": "BAKERY"
                 }
               ]
             },
@@ -295,64 +339,26 @@
           }
         },
         {
-          "name": "3. Filter Products by SKU",
+          "name": "3. Search Products",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/products/?sku=SW-DAI-001",
-              "host": ["{{base_url}}"],
-              "path": ["api", "products", ""],
-              "query": [
-                {
-                  "key": "sku",
-                  "value": "SW-DAI-001"
-                }
-              ]
-            },
-            "description": "Filter products by unique SKU."
-          }
-        },
-        {
-          "name": "4. Filter In-Stock Products",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/products/?in_stock=true",
-              "host": ["{{base_url}}"],
-              "path": ["api", "products", ""],
-              "query": [
-                {
-                  "key": "in_stock",
-                  "value": "true"
-                }
-              ]
-            },
-            "description": "Filter products that are available and in stock."
-          }
-        },
-        {
-          "name": "5. Search Products",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/products/?search=Milk",
+              "raw": "{{base_url}}/api/products/?search=Bread",
               "host": ["{{base_url}}"],
               "path": ["api", "products", ""],
               "query": [
                 {
                   "key": "search",
-                  "value": "Milk"
+                  "value": "Bread"
                 }
               ]
             },
-            "description": "Search products matching term 'Milk' across name, description, SKU, brand, and subcategory."
+            "description": "Search products matching term."
           }
         },
         {
-          "name": "6. Get Product Detail",
+          "name": "4. Get Product Detail",
           "request": {
             "method": "GET",
             "header": [],
@@ -365,46 +371,7 @@
           }
         },
         {
-          "name": "7. List Products by Category ID Endpoint",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/categories/1/products/",
-              "host": ["{{base_url}}"],
-              "path": ["api", "categories", "1", "products", ""]
-            },
-            "description": "Get products belonging to specific category."
-          }
-        },
-        {
-          "name": "8. Admin Create Product",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Token {{admin_token}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"sku\": \"SW-BAK-003\",\n  \"name\": \"Butter Croissant (2 Pack)\",\n  \"category_id\": 1,\n  \"subcategory_name\": \"Pastries\",\n  \"description\": \"Flaky french butter croissants freshly baked daily.\",\n  \"price\": \"120.00\",\n  \"discount_price\": \"105.00\",\n  \"tax_percentage\": \"5.00\",\n  \"unit\": \"2 Pcs\",\n  \"stock_quantity\": 50,\n  \"is_available\": true,\n  \"is_active\": true,\n  \"brand\": \"Swastik Bakery\",\n  \"tags\": [\"fresh\", \"french-style\", \"butter\"],\n  \"attributes\": {\n    \"shelf_life_days\": 2,\n    \"heating_instruction\": \"Warm for 10 seconds in microwave\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/admin/products/",
-              "host": ["{{base_url}}"],
-              "path": ["api", "admin", "products", ""]
-            },
-            "description": "Admin endpoint to create a new product entry with full parameters and JSON attributes."
-          }
-        },
-        {
-          "name": "9. Admin List All Products (Incl. Inactive)",
+          "name": "5. Admin List All Products (Incl. Inactive)",
           "request": {
             "method": "GET",
             "header": [
@@ -422,7 +389,33 @@
           }
         },
         {
-          "name": "10. Admin Update Product",
+          "name": "6. Admin Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sku\": \"SW-BAK-014\",\n  \"name\": \"Pistachio Croissant\",\n  \"category\": 1,\n  \"subcategory_name\": \"Pastries\",\n  \"description\": \"Golden butter croissant filled with pistachio cream.\",\n  \"price\": \"160.00\",\n  \"discount_price\": \"145.00\",\n  \"tax_percentage\": \"18.00\",\n  \"unit\": \"2 Pcs\",\n  \"stock_quantity\": 40,\n  \"is_available\": true,\n  \"is_active\": true,\n  \"brand\": \"Swastik Bakery\",\n  \"tags\": [\"pistachio\", \"croissant\"],\n  \"attributes\": {\n    \"contains_nuts\": true,\n    \"shelf_life_days\": 2\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/products/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "products", ""]
+            },
+            "description": "Admin endpoint to create a new product entry."
+          }
+        },
+        {
+          "name": "7. Admin Update Product",
           "request": {
             "method": "PATCH",
             "header": [
@@ -448,7 +441,7 @@
           }
         },
         {
-          "name": "11. Admin Delete Product",
+          "name": "8. Admin Delete Product",
           "request": {
             "method": "DELETE",
             "header": [
@@ -463,6 +456,24 @@
               "path": ["api", "admin", "products", "9", ""]
             },
             "description": "Admin endpoint to delete a product entry."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "Server Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health/",
+              "host": ["{{base_url}}"],
+              "path": ["health", ""]
+            },
+            "description": "Check if server is online."
           }
         }
       ]

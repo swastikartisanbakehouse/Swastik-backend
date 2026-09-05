@@ -24,17 +24,19 @@ class CategoryDetailView(generics.RetrieveAPIView):
 
 
 # Admin Category Views
-class AdminCategoryCreateView(generics.CreateAPIView):
+class AdminCategoryListCreateView(generics.ListCreateAPIView):
     """
-    POST /api/admin/categories
-    Creates a new category (Admin only).
+    GET /api/admin/categories (List all categories including inactive)
+    POST /api/admin/categories (Create a new category)
     """
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAdminUser]
 
-class AdminCategoryUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+class AdminCategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
+    GET /api/admin/categories/:id
+    PUT /api/admin/categories/:id
     PATCH /api/admin/categories/:id
     DELETE /api/admin/categories/:id
     Updates or deletes a category (Admin only).
@@ -42,3 +44,4 @@ class AdminCategoryUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAdminUser]
+
