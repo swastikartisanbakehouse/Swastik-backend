@@ -14,7 +14,7 @@ class Product(models.Model):
     stock_quantity = models.IntegerField(default=100)
     is_available = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
-    image = models.ImageField(upload_to='products/', blank=True, null=True)
+    image = models.ImageField(upload_to='products/', max_length=500, blank=True, null=True)
     brand = models.CharField(max_length=100, blank=True, default='Swastik')
     tags = models.JSONField(default=list, blank=True)
     attributes = models.JSONField(default=dict, blank=True)
