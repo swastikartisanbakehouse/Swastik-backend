@@ -3,7 +3,7 @@ from .models import Category
 
 class CategorySerializer(serializers.ModelSerializer):
     sector_display = serializers.CharField(source='get_sector_display', read_only=True)
-    image = serializers.SerializerMethodField()
+    image = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
     class Meta:
         model = Category
@@ -12,15 +12,21 @@ class CategorySerializer(serializers.ModelSerializer):
             'image', 'is_active', 'metadata', 'created_at'
         ]
 
-    def get_image(self, obj):
-        if not obj.image:
-            return None
-        image_str = str(obj.image)
-        if image_str.startswith('http://') or image_str.startswith('https://'):
-            return image_str
-        request = self.context.get('request')
-        if request:
-            return request.build_absolute_uri(obj.image.url)
-        return obj.image.url
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.image:
+            image_str = str(instance.image)
+            if image_str.startswith('http://') or image_str.startswith('https://'):
+                representation['image'] = image_str
+            else:
+                request = self.context.get('request')
+                if request:
+                    representation['image'] = request.build_absolute_uri(instance.image.url)
+                else:
+                    representation['image'] = instance.image.url
+        else:
+            representation['image'] = None
+        return representation
+
 
 
