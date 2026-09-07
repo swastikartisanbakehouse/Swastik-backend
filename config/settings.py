@@ -134,9 +134,38 @@ REST_FRAMEWORK = {
     ],
 }
 
-# CORS Settings - Allow frontend client & admin dashboard
+# CORS Settings - Allow frontend client & admin dashboard from any origin with credentials
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+
+# Allows corsheaders to echo back the requesting origin dynamically (e.g. localhost, Vercel, Netlify)
+# avoiding browser wildcard CORS errors when credentials mode is enabled.
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^http://.*$",
+    r"^https://.*$",
+]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'

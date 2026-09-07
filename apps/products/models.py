@@ -15,10 +15,12 @@ class Product(models.Model):
     is_available = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
     image = models.ImageField(upload_to='products/', blank=True, null=True)
+    image_url = models.CharField(max_length=500, blank=True, default='')
     brand = models.CharField(max_length=100, blank=True, default='Swastik')
     tags = models.JSONField(default=list, blank=True)
     attributes = models.JSONField(default=dict, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
 
     class Meta:
         ordering = ['-created_at']
