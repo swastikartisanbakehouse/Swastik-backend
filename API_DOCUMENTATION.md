@@ -6,8 +6,9 @@ Welcome to the **Swastik Backend API Documentation**. This guide contains comple
 
 ## 🌐 Base URLs
 
-* **Production URL**: `https://swastik-backend.onrender.com`
+* **Production URL**: `https://swastik-backend-wirs.onrender.com`
 * **Local Development URL**: `http://127.0.0.1:8000`
+
 
 ---
 
