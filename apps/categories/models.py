@@ -12,10 +12,10 @@ class Category(models.Model):
     sector = models.CharField(max_length=50, choices=SECTOR_CHOICES, default='BAKERY')
     description = models.TextField(blank=True, default='')
     image = models.ImageField(upload_to='categories/', blank=True, null=True)
-    image_url = models.CharField(max_length=500, blank=True, default='')
     is_active = models.BooleanField(default=True)
     metadata = models.JSONField(default=dict, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
 
 
     class Meta:

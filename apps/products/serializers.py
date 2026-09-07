@@ -30,7 +30,6 @@ class ProductSerializer(serializers.ModelSerializer):
             'is_available',
             'is_active',
             'image',
-            'image_url',
             'brand',
             'tags',
             'attributes',
@@ -38,15 +37,19 @@ class ProductSerializer(serializers.ModelSerializer):
         ]
 
     def get_image(self, obj):
-        if obj.image:
-            request = self.context.get('request')
-            if request:
-                return request.build_absolute_uri(obj.image.url)
-            return obj.image.url
-        return obj.image_url or None
+        if not obj.image:
+            return None
+        image_str = str(obj.image)
+        if image_str.startswith('http://') or image_str.startswith('https://'):
+            return image_str
+        request = self.context.get('request')
+        if request:
+            return request.build_absolute_uri(obj.image.url)
+        return obj.image.url
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation['category_id'] = instance.category_id
         return representation
+
 

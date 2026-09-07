@@ -6,7 +6,7 @@ from apps.products.models import Product
 User = get_user_model()
 
 class Command(BaseCommand):
-    help = 'Seeds initial prototype categories, 50 detailed products with high-res image URLs across all sectors, and superuser/customer accounts'
+    help = 'Seeds initial prototype categories, 50 detailed products with high-res image URLs directly in image field, and superuser/customer accounts'
 
     def handle(self, *args, **options):
         self.stdout.write(self.style.SUCCESS('Starting Phase 1 database seeding...'))
@@ -55,7 +55,7 @@ class Command(BaseCommand):
                 'name': 'Bakery',
                 'sector': 'BAKERY',
                 'description': 'Freshly baked breads, artisanal cakes, cookies, pastries, and savory bakes.',
-                'image_url': 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&auto=format&fit=crop',
                 'metadata': {
                     'supports_preorder': True,
                     'supports_customization': True,
@@ -66,7 +66,7 @@ class Command(BaseCommand):
                 'name': 'Dairy / Milk',
                 'sector': 'DAIRY',
                 'description': 'Pure farm-fresh milk, paneer, fresh curd, ghee, butter, and daily dairy essentials.',
-                'image_url': 'https://images.unsplash.com/photo-1528750997573-59b89d66f4f7?w=800&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1528750997573-59b89d66f4f7?w=800&auto=format&fit=crop',
                 'metadata': {
                     'supports_subscriptions': True,
                     'subscription_frequencies': ['Daily', 'Alternate Days', 'Weekly', 'Monthly'],
@@ -77,7 +77,7 @@ class Command(BaseCommand):
                 'name': 'Sweets',
                 'sector': 'SWEETS',
                 'description': 'Authentic traditional sweets, mithai, rasgulla, gulab jamun, and festive sweet boxes.',
-                'image_url': 'https://images.unsplash.com/photo-1599785209707-a456fc1337cc?w=800&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1599785209707-a456fc1337cc?w=800&auto=format&fit=crop',
                 'metadata': {
                     'weight_based_pricing': True,
                     'supports_gift_packs': True,
@@ -88,7 +88,7 @@ class Command(BaseCommand):
                 'name': 'Confectionery',
                 'sector': 'CONFECTIONERY',
                 'description': 'Crispy savouries, namkeens, chocolates, roasted nuts, biscuits, and beverages.',
-                'image_url': 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&auto=format&fit=crop',
                 'metadata': {
                     'supports_combos': True,
                     'popular_subcategories': ['Namkeen & Savouries', 'Chocolates', 'Nuts & Dry Fruits', 'Biscuits & Wafers']
@@ -103,18 +103,18 @@ class Command(BaseCommand):
                 defaults={
                     'sector': cat_info['sector'],
                     'description': cat_info['description'],
-                    'image_url': cat_info['image_url'],
+                    'image': cat_info['image'],
                     'metadata': cat_info['metadata'],
                     'is_active': True
                 }
             )
-            category.image_url = cat_info['image_url']
+            category.image = cat_info['image']
             category.save()
             created_categories[cat_info['sector']] = category
             cat_status = 'Created' if created else 'Updated'
             self.stdout.write(f'Category "{category.name}": {cat_status}')
 
-        # Define 50 rich products across all 4 business sectors with curated image_url
+        # Define 50 rich products across all 4 business sectors with curated image URLs directly in image field
         products_data = [
             # ==================== BAKERY SECTOR (13 Products) ====================
             {
@@ -129,7 +129,7 @@ class Command(BaseCommand):
                 'unit': '400 g',
                 'stock_quantity': 150,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Bakery',
                 'tags': ['fresh', 'daily-essential', 'whole-wheat'],
                 'attributes': {'shelf_life_days': 3, 'eggless': True, 'storage': 'Cool dry place'}
@@ -146,7 +146,7 @@ class Command(BaseCommand):
                 'unit': '500 g',
                 'stock_quantity': 25,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Bakery',
                 'tags': ['bestseller', 'customizable', 'premium'],
                 'attributes': {'flavour': 'Dark Chocolate Truffle', 'eggless': True, 'custom_message': True}
@@ -163,7 +163,7 @@ class Command(BaseCommand):
                 'unit': '400 g',
                 'stock_quantity': 80,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Bakery',
                 'tags': ['multigrain', 'healthy', 'high-fiber'],
                 'attributes': {'shelf_life_days': 3, 'eggless': True}
@@ -180,7 +180,7 @@ class Command(BaseCommand):
                 'unit': '150 g',
                 'stock_quantity': 40,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Bakery',
                 'tags': ['pastry', 'dessert', 'eggless'],
                 'attributes': {'refrigeration_required': True, 'eggless': True}
@@ -197,7 +197,7 @@ class Command(BaseCommand):
                 'unit': '2 Pcs',
                 'stock_quantity': 35,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Bakery',
                 'tags': ['croissant', 'breakfast', 'flaky'],
                 'attributes': {'shelf_life_days': 2, 'contains_butter': True}
@@ -214,7 +214,7 @@ class Command(BaseCommand):
                 'unit': '250 g',
                 'stock_quantity': 90,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Bakery',
                 'tags': ['cookies', 'chocochip', 'tea-time'],
                 'attributes': {'shelf_life_days': 30, 'eggless': True}
@@ -231,7 +231,7 @@ class Command(BaseCommand):
                 'unit': '2 Pcs',
                 'stock_quantity': 50,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1607958996333-41aef7caefaa?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1607958996333-41aef7caefaa?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Bakery',
                 'tags': ['muffins', 'blueberry', 'snack'],
                 'attributes': {'shelf_life_days': 4, 'eggless': True}
@@ -248,7 +248,7 @@ class Command(BaseCommand):
                 'unit': '100 g',
                 'stock_quantity': 65,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Bakery',
                 'tags': ['brownie', 'walnut', 'fudgy'],
                 'attributes': {'contains_nuts': True, 'eggless': True}
@@ -265,7 +265,7 @@ class Command(BaseCommand):
                 'unit': '300 g',
                 'stock_quantity': 40,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1573140247632-f8fd74997d5c?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1573140247632-f8fd74997d5c?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Bakery',
                 'tags': ['focaccia', 'garlic-bread', 'artisanal'],
                 'attributes': {'shelf_life_days': 2, 'eggless': True}
@@ -282,7 +282,7 @@ class Command(BaseCommand):
                 'unit': '500 g',
                 'stock_quantity': 20,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1535141192574-5d4897c13136?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1535141192574-5d4897c13136?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Bakery',
                 'tags': ['pineapple', 'cream-cake', 'celebration'],
                 'attributes': {'flavour': 'Pineapple', 'eggless': True}
@@ -299,7 +299,7 @@ class Command(BaseCommand):
                 'unit': '200 g',
                 'stock_quantity': 45,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Bakery',
                 'tags': ['biscotti', 'almond', 'coffee-pair'],
                 'attributes': {'shelf_life_days': 45, 'contains_nuts': True}
@@ -316,7 +316,7 @@ class Command(BaseCommand):
                 'unit': '2 Pcs',
                 'stock_quantity': 30,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1509365465985-25d11c17e812?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1509365465985-25d11c17e812?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Bakery',
                 'tags': ['cinnamon-roll', 'sweet-bake'],
                 'attributes': {'shelf_life_days': 3, 'eggless': True}
@@ -333,7 +333,7 @@ class Command(BaseCommand):
                 'unit': '4 Pcs',
                 'stock_quantity': 25,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Bakery',
                 'tags': ['custard', 'choux', 'gourmet'],
                 'attributes': {'refrigeration_required': True, 'shelf_life_days': 2}
@@ -352,7 +352,7 @@ class Command(BaseCommand):
                 'unit': '1 L',
                 'stock_quantity': 500,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Dairy',
                 'tags': ['subscription-eligible', 'daily-fresh', 'pure-milk'],
                 'attributes': {'fat_content': '6.0%', 'snf_content': '9.0%', 'subscription_eligible': True}
@@ -369,7 +369,7 @@ class Command(BaseCommand):
                 'unit': '200 g',
                 'stock_quantity': 180,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Dairy',
                 'tags': ['protein-rich', 'fresh-made'],
                 'attributes': {'shelf_life_days': 5, 'refrigeration_required': True}
@@ -386,7 +386,7 @@ class Command(BaseCommand):
                 'unit': '500 g',
                 'stock_quantity': 100,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1627886450785-5df18c34614e?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1627886450785-5df18c34614e?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Dairy',
                 'tags': ['pure-ghee', 'cow-ghee', 'bilona'],
                 'attributes': {'shelf_life_months': 9, 'aroma': 'Granulated Traditional'}
@@ -403,7 +403,7 @@ class Command(BaseCommand):
                 'unit': '400 g',
                 'stock_quantity': 250,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Dairy',
                 'tags': ['curd', 'dahi', 'probiotic'],
                 'attributes': {'shelf_life_days': 7, 'refrigeration_required': True}
@@ -420,7 +420,7 @@ class Command(BaseCommand):
                 'unit': '200 g',
                 'stock_quantity': 90,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Dairy',
                 'tags': ['butter', 'white-butter', 'churned'],
                 'attributes': {'shelf_life_days': 15, 'refrigeration_required': True}
@@ -437,7 +437,7 @@ class Command(BaseCommand):
                 'unit': '300 ml',
                 'stock_quantity': 120,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1534353473418-4cfa6c56fd38?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1534353473418-4cfa6c56fd38?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Dairy',
                 'tags': ['mango-lassi', 'chilled', 'summer-drink'],
                 'attributes': {'shelf_life_days': 5, 'refrigeration_required': True}
@@ -454,7 +454,7 @@ class Command(BaseCommand):
                 'unit': '500 ml',
                 'stock_quantity': 300,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1556881286-fc6915169721?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1556881286-fc6915169721?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Dairy',
                 'tags': ['chaas', 'masala-buttermilk', 'digestive'],
                 'attributes': {'shelf_life_days': 4, 'refrigeration_required': True}
@@ -471,7 +471,7 @@ class Command(BaseCommand):
                 'unit': '250 g',
                 'stock_quantity': 60,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1576182997746-990a424269e8?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1576182997746-990a424269e8?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Dairy',
                 'tags': ['fresh-cream', 'cooking', 'desserts'],
                 'attributes': {'fat_content': '25%', 'shelf_life_days': 10}
@@ -488,7 +488,7 @@ class Command(BaseCommand):
                 'unit': '200 g',
                 'stock_quantity': 75,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1452195100486-9cc805987862?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1452195100486-9cc805987862?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Dairy',
                 'tags': ['mozzarella', 'cheese', 'pizza-cheese'],
                 'attributes': {'shelf_life_months': 6, 'refrigeration_required': True}
@@ -505,7 +505,7 @@ class Command(BaseCommand):
                 'unit': '200 ml',
                 'stock_quantity': 150,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1556881286-fc6915169721?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1556881286-fc6915169721?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Dairy',
                 'tags': ['chocolate-milk', 'kids-favorite', 'chilled'],
                 'attributes': {'shelf_life_days': 15, 'refrigeration_required': True}
@@ -522,7 +522,7 @@ class Command(BaseCommand):
                 'unit': '1 L',
                 'stock_quantity': 400,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Dairy',
                 'tags': ['toned-milk', 'low-fat', 'daily-essential'],
                 'attributes': {'fat_content': '3.0%', 'snf_content': '8.5%'}
@@ -539,7 +539,7 @@ class Command(BaseCommand):
                 'unit': '250 g',
                 'stock_quantity': 50,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1627886450785-5df18c34614e?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1627886450785-5df18c34614e?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Dairy',
                 'tags': ['khoya', 'mawa', 'sweet-making'],
                 'attributes': {'shelf_life_days': 7, 'refrigeration_required': True}
@@ -558,7 +558,7 @@ class Command(BaseCommand):
                 'unit': '1 kg',
                 'stock_quantity': 80,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1599785209707-a456fc1337cc?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1599785209707-a456fc1337cc?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Sweets',
                 'tags': ['traditional', 'festive-favorite', 'bestseller'],
                 'attributes': {'piece_count': '16-18 Pcs', 'packaging': 'Sealed Tin'}
@@ -575,7 +575,7 @@ class Command(BaseCommand):
                 'unit': '500 g',
                 'stock_quantity': 100,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Sweets',
                 'tags': ['pure-ghee', 'motichoor', 'mithai'],
                 'attributes': {'ghee_type': 'Pure Desi Ghee', 'shelf_life_days': 15}
@@ -592,7 +592,7 @@ class Command(BaseCommand):
                 'unit': '1 kg',
                 'stock_quantity': 90,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1601050690187-84a1b0254c7d?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1601050690187-84a1b0254c7d?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Sweets',
                 'tags': ['gulab-jamun', 'syrup-sweet', 'bestseller'],
                 'attributes': {'piece_count': '20 Pcs', 'shelf_life_days': 10}
@@ -609,7 +609,7 @@ class Command(BaseCommand):
                 'unit': '400 g',
                 'stock_quantity': 110,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Sweets',
                 'tags': ['kaju-katli', 'cashew', 'festive-gift'],
                 'attributes': {'cashew_content': '80%', 'shelf_life_days': 30}
@@ -626,7 +626,7 @@ class Command(BaseCommand):
                 'unit': '500 g',
                 'stock_quantity': 85,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Sweets',
                 'tags': ['besan-ladoo', 'desighee', 'traditional'],
                 'attributes': {'shelf_life_days': 45}
@@ -643,7 +643,7 @@ class Command(BaseCommand):
                 'unit': '4 Pcs',
                 'stock_quantity': 40,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Sweets',
                 'tags': ['rasmalai', 'saffron', 'chilled-sweet'],
                 'attributes': {'shelf_life_days': 3, 'refrigeration_required': True}
@@ -660,7 +660,7 @@ class Command(BaseCommand):
                 'unit': '400 g',
                 'stock_quantity': 60,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Sweets',
                 'tags': ['milk-cake', 'kalakand', 'grainy-fudge'],
                 'attributes': {'shelf_life_days': 12}
@@ -677,7 +677,7 @@ class Command(BaseCommand):
                 'unit': '500 g',
                 'stock_quantity': 120,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Sweets',
                 'tags': ['soan-papdi', 'flaky-sweet', 'gift-box'],
                 'attributes': {'shelf_life_months': 4}
@@ -694,7 +694,7 @@ class Command(BaseCommand):
                 'unit': '400 g',
                 'stock_quantity': 70,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1599785209707-a456fc1337cc?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1599785209707-a456fc1337cc?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Sweets',
                 'tags': ['peda', 'mathura-peda', 'khoya-sweet'],
                 'attributes': {'shelf_life_days': 20}
@@ -711,7 +711,7 @@ class Command(BaseCommand):
                 'unit': '250 g',
                 'stock_quantity': 45,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Sweets',
                 'tags': ['jalebi', 'crispy', 'fresh-hot'],
                 'attributes': {'best_consumed': 'Same Day'}
@@ -728,7 +728,7 @@ class Command(BaseCommand):
                 'unit': '500 g',
                 'stock_quantity': 50,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Sweets',
                 'tags': ['cham-cham', 'bengali-sweet'],
                 'attributes': {'shelf_life_days': 5, 'refrigeration_required': True}
@@ -745,7 +745,7 @@ class Command(BaseCommand):
                 'unit': '400 g',
                 'stock_quantity': 65,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Sweets',
                 'tags': ['mysore-pak', 'ghee-sweet', 'rich'],
                 'attributes': {'shelf_life_days': 20}
@@ -762,7 +762,7 @@ class Command(BaseCommand):
                 'unit': '400 g',
                 'stock_quantity': 55,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Sweets',
                 'tags': ['sugarfree', 'dry-fruit-ladoo', 'healthy-sweet'],
                 'attributes': {'no_added_sugar': True, 'shelf_life_days': 60}
@@ -781,7 +781,7 @@ class Command(BaseCommand):
                 'unit': '400 g',
                 'stock_quantity': 200,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Snacks',
                 'tags': ['spicy', 'ratlami-sev', 'tea-time'],
                 'attributes': {'spice_level': 'Medium High', 'shelf_life_months': 4}
@@ -798,7 +798,7 @@ class Command(BaseCommand):
                 'unit': '250 g',
                 'stock_quantity': 80,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Confectionery',
                 'tags': ['gift-pack', 'chocolates', 'premium'],
                 'attributes': {'piece_count': 12, 'contains_nuts': True}
@@ -815,7 +815,7 @@ class Command(BaseCommand):
                 'unit': '400 g',
                 'stock_quantity': 220,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Snacks',
                 'tags': ['aloo-bhujia', 'namkeen', 'snack'],
                 'attributes': {'shelf_life_months': 6}
@@ -832,7 +832,7 @@ class Command(BaseCommand):
                 'unit': '200 g',
                 'stock_quantity': 95,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1536591375315-198956582371?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1536591375315-198956582371?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Snacks',
                 'tags': ['cashews', 'roasted-nuts', 'premium-snack'],
                 'attributes': {'shelf_life_months': 6}
@@ -849,7 +849,7 @@ class Command(BaseCommand):
                 'unit': '250 g',
                 'stock_quantity': 140,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1621447504864-d8686e12698c?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1621447504864-d8686e12698c?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Snacks',
                 'tags': ['banana-chips', 'coconut-oil', 'crispy'],
                 'attributes': {'oil_type': 'Pure Coconut Oil', 'shelf_life_months': 3}
@@ -866,7 +866,7 @@ class Command(BaseCommand):
                 'unit': '200 g',
                 'stock_quantity': 110,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1508061252966-177491d9e261?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1508061252966-177491d9e261?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Snacks',
                 'tags': ['almonds', 'roasted', 'healthy-snack'],
                 'attributes': {'shelf_life_months': 6}
@@ -883,7 +883,7 @@ class Command(BaseCommand):
                 'unit': '400 g',
                 'stock_quantity': 130,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Snacks',
                 'tags': ['mathri', 'ajwain', 'tea-companion'],
                 'attributes': {'shelf_life_months': 4}
@@ -900,7 +900,7 @@ class Command(BaseCommand):
                 'unit': '350 g',
                 'stock_quantity': 150,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Snacks',
                 'tags': ['chana-chor', 'tangy', 'protein-snack'],
                 'attributes': {'roasted': True, 'shelf_life_months': 5}
@@ -917,7 +917,7 @@ class Command(BaseCommand):
                 'unit': '100 g',
                 'stock_quantity': 90,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Confectionery',
                 'tags': ['dark-chocolate', '70-percent', 'almond-bar'],
                 'attributes': {'cocoa_percentage': '70%', 'shelf_life_months': 9}
@@ -934,7 +934,7 @@ class Command(BaseCommand):
                 'unit': '200 g',
                 'stock_quantity': 175,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1601050690187-84a1b0254c7d?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1601050690187-84a1b0254c7d?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Snacks',
                 'tags': ['mini-samosa', 'party-snack', 'crispy'],
                 'attributes': {'shelf_life_months': 3}
@@ -951,7 +951,7 @@ class Command(BaseCommand):
                 'unit': '300 g',
                 'stock_quantity': 110,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Confectionery',
                 'tags': ['butter-cookies', 'salted', 'bakery-style'],
                 'attributes': {'shelf_life_months': 4}
@@ -968,7 +968,7 @@ class Command(BaseCommand):
                 'unit': '150 g',
                 'stock_quantity': 210,
                 'is_available': True,
-                'image_url': 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=600&auto=format&fit=crop',
+                'image': 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=600&auto=format&fit=crop',
                 'brand': 'Swastik Snacks',
                 'tags': ['potato-chips', 'lemon-flavor', 'chatpata'],
                 'attributes': {'shelf_life_months': 4}
@@ -990,13 +990,13 @@ class Command(BaseCommand):
                     'stock_quantity': prod_info['stock_quantity'],
                     'is_available': prod_info['is_available'],
                     'is_active': True,
-                    'image_url': prod_info['image_url'],
+                    'image': prod_info['image'],
                     'brand': prod_info['brand'],
                     'tags': prod_info['tags'],
                     'attributes': prod_info['attributes']
                 }
             )
-            # Ensure image_url is always updated even if product existed previously
+            # Ensure image is always updated directly in the image field
             product.name = prod_info['name']
             product.category = prod_info['category']
             product.subcategory_name = prod_info['subcategory_name']
@@ -1007,7 +1007,7 @@ class Command(BaseCommand):
             product.unit = prod_info['unit']
             product.stock_quantity = prod_info['stock_quantity']
             product.is_available = prod_info['is_available']
-            product.image_url = prod_info['image_url']
+            product.image = prod_info['image']
             product.brand = prod_info['brand']
             product.tags = prod_info['tags']
             product.attributes = prod_info['attributes']
@@ -1016,4 +1016,4 @@ class Command(BaseCommand):
             prod_status = 'Created' if created else 'Updated'
             self.stdout.write(f'Product [{product.sku}] "{product.name}": {prod_status}')
 
-        self.stdout.write(self.style.SUCCESS('Successfully seeded 50 detailed products with high-res images and superuser!'))
+        self.stdout.write(self.style.SUCCESS('Successfully seeded 50 detailed products with high-res images directly in image field!'))

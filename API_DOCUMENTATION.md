@@ -170,7 +170,6 @@ Invalidates the active token.
       "sector": "BAKERY",
       "description": "Freshly baked breads, artisanal cakes, cookies, pastries, and savory bakes.",
       "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&auto=format&fit=crop",
-      "image_url": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&auto=format&fit=crop",
       "is_active": true,
       "metadata": {
         "supports_preorder": true,
@@ -201,7 +200,7 @@ Lists all categories including inactive ones.
     "name": "Artisanal Beverages",
     "sector": "CONFECTIONERY",
     "description": "Fresh organic cold-pressed juices and specialty beverages.",
-    "image_url": "https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&auto=format&fit=crop",
+    "image": "https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&auto=format&fit=crop",
     "is_active": true,
     "metadata": {
       "temperature_sensitive": true
@@ -252,7 +251,6 @@ Lists active available products with extensive filtering options.
       "is_available": true,
       "is_active": true,
       "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&auto=format&fit=crop",
-      "image_url": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&auto=format&fit=crop",
       "brand": "Swastik Bakery",
       "tags": ["fresh", "daily-essential", "whole-wheat"],
       "attributes": {
@@ -264,6 +262,7 @@ Lists active available products with extensive filtering options.
     }
   ]
   ```
+
 
 
 ---
